@@ -1,11 +1,11 @@
 import uuid
 from datetime import datetime
-from random import randint
 
 from werkzeug.exceptions import BadRequest, Gone, NotFound
 
 from odoo import http
 from odoo.http import request
+import secrets
 
 
 class WebsiteChild(http.Controller):
@@ -42,7 +42,7 @@ class WebsiteChild(http.Controller):
         if not children:
             return self.load_child(**kwargs)
         if random:
-            child = children[randint(0, len(children) - 1)]
+            child = children[secrets.SystemRandom().randint(0, len(children) - 1)]
             return request.redirect(
                 child.website_url + "?" + request.httprequest.query_string.decode()
             )
